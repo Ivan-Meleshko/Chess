@@ -34,7 +34,7 @@ public class Pawn extends ChessPiece {
 	                    return chessBoard.board[toLine][toColumn] == null && chessBoard.board[line + dir][column] == null; // check that positions is null
 	                }
 
-	            } else { // want to eat piece
+	            } else { 
 
 	                if ((column - toColumn == 1 || column - toColumn == -1) && (line - toLine == 1 || line - toLine == -1) && // check that piece another color
 	                        chessBoard.board[toLine][toColumn] != null) {
@@ -48,7 +48,6 @@ public class Pawn extends ChessPiece {
 	       
 	@Override
 	public String getSymbol() {
-		// TODO Auto-generated method stub
 		return "P";
 	}
 
