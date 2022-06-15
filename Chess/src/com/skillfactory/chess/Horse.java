@@ -1,46 +1,48 @@
 package com.skillfactory.chess;
 
 public class Horse extends ChessPiece {
+    public Horse(String color) {
+        super(color);
+    }
 
-	public Horse(String color) {
-		super(color);
-	}
+    @Override
+    public String getColor() {
+        return this.color;
+    }
 
-	@Override
-	public String getColor() {
-		return color;
-	}
+    @Override
+    public boolean canMoveToPosition(ChessBoard chessBoard, int line, int column, int toLine, int toColumn) {
+        if (checkPos(line) && checkPos(column) && checkPos(toLine) && checkPos(toColumn)) {
+            if (line != toLine && column != toColumn && (chessBoard.board[toLine][toColumn] == null || 
+                    !chessBoard.board[toLine][toColumn].color.equals(this.color)) &&                   
+                    chessBoard.board[line][column] != null) {                                          
+                if (!chessBoard.board[line][column].equals(this)) {
+                    return false;
+                }
 
-	@Override
-	public boolean canMoveToPosition(ChessBoard chessBoard, int line, int column, int toLine, int toColumn) {
-		boolean result = false;
-		if (chessBoard.checkPos(toLine) && chessBoard.checkPos(toColumn)) { // destination check
-			if (chessBoard.board[line][column].equals(this)) { // make sure the figure is right
-				if ((line != toLine) && (column != toColumn)) {
-					if ((((line - toLine == 1) && (column - toColumn == 2)) || // horse left bottom
-							((line - toLine == 1) && (column - toColumn == 2)) || // h left top
-							((toLine - line == 2) && (column - toColumn == 1)) || // h top left
-							((toLine - line == 2) && (toColumn - column == 1)) || // h top right
-							((toLine - line == 1) && (toColumn - column == 2)) || // h right top
-							((line - toLine == 1) && (toColumn - column == 2)) || // h right bottom
-							((line - toLine == 2) && (toColumn - column == 1)) || // h bottom right
-							((line - toLine == 2) && (column - toColumn == 1)))) // h bottom left
-					{
-						result = true;
-					}
-					result = true;
-				}
-				result = true;
-			}
-			result = true;
-		}
-		return result;
+                
+                int[][] positions = new int[][]{
+                        {line - 2, column - 1}, {line - 2, column + 1},
+                        {line + 2, column - 1}, {line + 2, column + 1},
+                        {line - 1, column - 2}, {line - 1, column + 2},
+                        {line + 1, column - 2}, {line + 1, column + 2}};
 
-	}
+                for (int i = 0; i < positions.length; i++) {
+                    if (positions[i][0] == toLine && positions[i][1] == toColumn)
+                        return true;  
+                }                                                                               
+            }
+        } else return false;
+        return false;
+    }
 
-	@Override
-	public String getSymbol() {
-		return "H";
-	}
+    @Override
+    public String getSymbol() {
+        return "H";
+    }
 
+    public boolean checkPos(int pos) {   
+        if (pos >= 0 && pos <= 7) return true;
+        else return false;
+    }
 }
